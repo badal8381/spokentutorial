@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Text To Speech</h1>
+<form method="POST" action="", enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-row mt-4">
+    <div class="col">
+      <input type="file" name="txt" id="">
+      <!-- <textarea name="text" type="text" class="form-control" placeholder="Enter Your Text" rows="5" required="required"></textarea> -->
+           </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Convert</button>
+     </form>
+
+{% if message %}
+<p>{{ message }}</p>
+{% endif %}
+
+{% if true %}
+<p>{{ data.text }}</p>
+<audio controls>
+  <source src="{{ data.speech.url }}" type="audio/mpeg">
+</audio>
+<p>Download Audio : <a href="{{ data.speech.url }}" download="speech.mp3">Download</a></p>
+{% endif %}
+{% endblock %}

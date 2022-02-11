@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Text To Speech</h1>
+{% if form %}
+<form method="POST" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="form-row mt-4">
+    <div class="col">
+        {{form.as_p}}
+        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="voice">
+          <option selected value="f">Female</option>
+          <option value="m">Male</option>
+        </select>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary mt-2">Convert</button>
+</form><br>
+{% endif %}
+{% if message %}
+<div class="alert alert-warning" role="alert">
+  <p>{{message}}</p>
+</div>
+{% endif %}
+
+{% if data %}
+<p>{{ data.text }}</p>
+<audio controls controlsList="nodownload">
+  <source src="{{ data.speech.url }}" type="audio/mpeg">
+</audio>
+<p>Download Audio : <a href={% url 'download-audio' id=data.text_id %}>Download</a></p>
+
+<a href="{{ request.META.HTTP_REFERER }}">Star Over</a>
+{% endif %}
+{% endblock %}
+

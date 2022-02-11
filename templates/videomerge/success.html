@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Video and Audio Merge</h1>
+
+<h3>Your Video has been merged and compressed successfully..</h3>
+
+<video width="400" height="300" controls controlsList="nodownload">
+  <source src="{{ data.output_video.url }}" type="video/mp4">
+</video>
+<p>Download Video : <a href={% url 'download-video' id=data.video_id %}>Download</a></p>
+{% endblock %}
