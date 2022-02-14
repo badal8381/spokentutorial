@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}
+SpokenTutorial
+{% endblock %}
+
+{% block content %}
+<h1>Video and Audio Merge</h1>
+
+
+<a href={% url 'tts' %}>Text To Speech</a><br><br>
+<a href={% url 'videomerge' %}>VideoMerge</a>
+{% endblock %}

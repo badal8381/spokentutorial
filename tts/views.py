@@ -6,7 +6,6 @@ from .func import convertToSpeech
 from .models import textToSpeech
 from .forms import TextForm
 import os
-import mimetypes
 
 
 def index(request):
@@ -24,7 +23,7 @@ def index(request):
 
             obj = textToSpeech.objects.get(text_id=id)
             url = convertToSpeech(obj.text_file.url[1:], voice)
-            with url.open(mode='rb') as f:
+            with open(url, 'rb') as f:
                 obj.speech = File(f, f'{id}.mp3')
                 obj.text_file.delete()
                 obj.save()

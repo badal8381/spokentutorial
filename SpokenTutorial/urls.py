@@ -18,6 +18,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('base.urls')),
     path('tts/', include('tts.urls')),
-    path('', include('videomerge.urls')),
+    path('videomerge/', include('videomerge.urls')),
 ]
+

@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block title %}
+Text To Speech
+{% endblock %}
+
 {% block content %}
 <h1>Text To Speech</h1>
 {% if form %}
@@ -7,6 +12,7 @@
   <div class="form-row mt-4">
     <div class="col">
         {{form.as_p}}
+        <label for="voice">Select Voice : </label>
         <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="voice">
           <option selected value="f">Female</option>
           <option value="m">Male</option>
