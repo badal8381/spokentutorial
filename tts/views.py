@@ -22,21 +22,26 @@ def index(request):
                 obj.save()
 
             obj = textToSpeech.objects.get(text_id=id)
-            url = convertToSpeech(obj.text_file.url[1:], voice)
-            with open(url, 'rb') as f:
-                obj.speech = File(f, f'{id}.mp3')
+            try:
+                url = convertToSpeech(obj.text_file.url[1:], voice)
+                with open(url, 'rb') as f:
+                    obj.speech = File(f, f'{id}.mp3')
+                    obj.text_file.delete()
+                    obj.save()
+
+                os.remove(url)
+                return render(request, 'tts/test.html', {'form':form, 'data': obj})
+            except:
                 obj.text_file.delete()
                 obj.save()
-
-            os.remove(url)
-            return render(request, 'tts/test.html', {'data': obj})
+                obj.delete()
+                return render(request, 'tts/test.html', {'form': form, 'error': True})
 
         # If uploaded file is not '.txt' then display invalid file format..
         # The validation is checked on server side, because it can be bypassed on client side
         else:
             form = TextForm()
-            message = "Invalid File Format, only '.txt' files are Supported.."
-            return render(request, 'tts/test.html', {'form': form, 'message': message})
+            return render(request, 'tts/test.html', {'form': form, 'message': True})
 
     form = TextForm()
     return render(request, 'tts/test.html', {'form': form})

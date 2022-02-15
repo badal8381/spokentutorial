@@ -5,37 +5,51 @@ Text To Speech
 {% endblock %}
 
 {% block content %}
-<h1>Text To Speech</h1>
-{% if form %}
-<form method="POST" action="" enctype="multipart/form-data">
-  {% csrf_token %}
-  <div class="form-row mt-4">
-    <div class="col">
-        {{form.as_p}}
-        <label for="voice">Select Voice : </label>
-        <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="voice">
-          <option selected value="f">Female</option>
-          <option value="m">Male</option>
-        </select>
+<div class="jumbotron">
+  <h1 class="display-4">Text To Speech</h1>
+  <p class="lead text-center">Upload the text file and wait for few moments and experience the magic of Text To Speech
+  </p>
+  <hr class="my-4">
+
+  <div class="row">
+    <div class="col-sm">
+      <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-row mt-4 mb-4 pl-4 pr-4">
+          <div class="col">
+            {{form.as_p}}
+            <label for="voice">Select Voice : </label>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="voice">
+              <option selected value="f">Female</option>
+              <option value="m">Male</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary mt-2">Convert</button>
+        </div>
+      </form><br>
+    </div>
+    <div class="col-sm mt-4 mb-4 pl-4 pr-4">
+      {% if data %}
+      <p>Pre listen the audio before downloading</p>
+      <audio controls controlsList="nodownload">
+        <source src="{{ data.speech.url }}" type="audio/mpeg">
+      </audio><br>
+      <p>Download Audio : <a class="btn btn-outline-primary" href={% url 'download-audio' id=data.text_id %} role="button">Download</a></p>
+
+      <!-- <a class="btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Star Over</a> -->
+      {% endif %}
     </div>
   </div>
-  <button type="submit" class="btn btn-primary mt-2">Convert</button>
-</form><br>
-{% endif %}
-{% if message %}
-<div class="alert alert-warning" role="alert">
-  <p>{{message}}</p>
-</div>
-{% endif %}
 
-{% if data %}
-<p>{{ data.text }}</p>
-<audio controls controlsList="nodownload">
-  <source src="{{ data.speech.url }}" type="audio/mpeg">
-</audio>
-<p>Download Audio : <a href={% url 'download-audio' id=data.text_id %}>Download</a></p>
+  {% if error %}
+  <div class="alert alert-warning" role="alert">
+    <p>Internal Server Error, Sorry For inconvenience you faced. Please Try again. </p>
+  </div>
+  {% endif %}
 
-<a href="{{ request.META.HTTP_REFERER }}">Star Over</a>
-{% endif %}
-{% endblock %}
-
+  {% if message %}
+  <div class="alert alert-warning" role="alert">
+    <p>{{message}}</p>
+  </div>
+  {% endif %}
+  {% endblock %}

@@ -23,16 +23,23 @@ def video(request):
                 obj.save()
 
             obj = convertedVideo.objects.get(video_id=id)
-            url = convert_video(obj.video.url[1:], obj.audio.url[1:])
-            with url.open(mode='rb') as f:
-                obj.output_video = File(f, f'{id}.mp4')
+            try:
+                url = convert_video(obj.video.url[1:], obj.audio.url[1:])
+                with url.open(mode='rb') as f:
+                    obj.output_video = File(f, f'{id}.mp4')
+                    obj.video.delete()
+                    obj.audio.delete()
+                    obj.save()
+                os.remove(url)
+            except:
                 obj.video.delete()
                 obj.audio.delete()
                 obj.save()
-            os.remove(url)
+                obj.delete()
+                return render(request, 'videomerge/test.html', {'form':form,'error':True})
 
             
-            return render(request, 'videomerge/success.html', {'data':obj})
+            return render(request, 'videomerge/test.html', {'form':form, 'data':obj})
 
 
         else:
@@ -56,3 +63,8 @@ def download_video(request, id):
     response = HttpResponse(fl, content_type='video/mp4')
     response['Content-Disposition'] = "attachment; filename=%s" % filename
     return response
+
+
+def preview_video(request, id):
+    obj = convertedVideo.objects.get(video_id=id)
+    return render(request, 'videomerge/preview.html', {'data':obj})
