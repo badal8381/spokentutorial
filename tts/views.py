@@ -30,21 +30,21 @@ def index(request):
                     obj.save()
 
                 os.remove(url)
-                return render(request, 'tts/test.html', {'form':form, 'data': obj})
+                return render(request, 'tts/tts.html', {'form':form, 'data': obj})
             except:
                 obj.text_file.delete()
                 obj.save()
                 obj.delete()
-                return render(request, 'tts/test.html', {'form': form, 'error': True})
+                return render(request, 'tts/tts.html', {'form': form, 'error': True})
 
         # If uploaded file is not '.txt' then display invalid file format..
         # The validation is checked on server side, because it can be bypassed on client side
         else:
             form = TextForm()
-            return render(request, 'tts/test.html', {'form': form, 'message': True})
+            return render(request, 'tts/tts.html', {'form': form, 'message': True})
 
     form = TextForm()
-    return render(request, 'tts/test.html', {'form': form})
+    return render(request, 'tts/tts.html', {'form': form})
 
 
 def download_speech(request, id):

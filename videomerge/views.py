@@ -36,19 +36,19 @@ def video(request):
                 obj.audio.delete()
                 obj.save()
                 obj.delete()
-                return render(request, 'videomerge/test.html', {'form':form,'error':True})
+                return render(request, 'videomerge/videomerge.html', {'form':form,'error':True})
 
             
-            return render(request, 'videomerge/test.html', {'form':form, 'data':obj})
+            return render(request, 'videomerge/videomerge.html', {'form':form, 'data':obj})
 
 
         else:
             form = VideoForm()
             message = "Invalid Video or Audio File format..."
-            return render(request, 'videomerge/test.html', {'form':form,'message':message})
+            return render(request, 'videomerge/videomerge.html', {'form':form,'message':message})
 
     form = VideoForm()
-    return render(request, 'videomerge/test.html',{'form':form})
+    return render(request, 'videomerge/videomerge.html',{'form':form})
 
 
 
