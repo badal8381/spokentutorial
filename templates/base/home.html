@@ -5,9 +5,26 @@ SpokenTutorial
 {% endblock %}
 
 {% block content %}
-<h1>Video and Audio Merge</h1>
+<div class="jumbotron">
+    <h1 class="display-4">Home</h1>
+    <hr class="my-4">
 
 
-<a href={% url 'tts' %}>Text To Speech</a><br><br>
-<a href={% url 'videomerge' %}>VideoMerge</a>
+    <div class="row align-items-md-stretch">
+        <div class="col-md-6">
+            <div class="h-100 p-5 text-white bg-dark rounded-3">
+                <h2>Text To Speech</h2>
+                <p>Text To Speech takes a text file as input and gives a voiceover of it. You can upload your transcript as a text file and get it converted into speech within few seconds..</p>
+                <a class="btn btn-outline-light" href={% url 'tts' %} role="button">Open TTS</a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="h-100 p-5 bg-light border rounded-3">
+                <h2>VideoMerge</h2>
+                <p>VideoMerge takes video and audio files as input and return a new video after merging and compressing it..</p>
+                <a class="btn btn-outline-secondary" href={% url 'videomerge' %} role="button">Open VideoMerge</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
