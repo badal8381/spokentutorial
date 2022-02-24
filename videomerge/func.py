@@ -4,19 +4,19 @@ from pathlib import Path
 from uuid import uuid4
 import moviepy.editor as me
 
-BASE_DIR = Path(__file__).parent.parent / 'media/video/temp'
+BASE_DIR = Path(__file__).parent.parent / 'media/video/temp' # temp dir path 
 
-audio_striped_output = BASE_DIR / f'{str(uuid4())}.mp4'
-output = BASE_DIR / f'{str(uuid4())}.mp4'
-compressed_output = BASE_DIR / f'{str(uuid4())}.mp4'
+audio_striped_output = BASE_DIR / f'{str(uuid4())}.mp4' # Path for storing audio striped video
+output = BASE_DIR / f'{str(uuid4())}.mp4'               # Path for storing merged audio and video
+compressed_output = BASE_DIR / f'{str(uuid4())}.mp4'    # Path for storing compressed video
 
-
+# Function to get audio duration
 def audio_length(audio):
     with me.AudioFileClip(audio) as aud:
         duration = aud.duration
     return duration
 
-
+# Function to get video duration
 def video_length(video):
     with me.VideoFileClip(video) as vid:
         duration = vid.duration
@@ -24,38 +24,31 @@ def video_length(video):
 
 
 def convert_video(video, audio):
-    # Command of ffmpeg to strip original video of its audio,
-    # we get input video from the function parameter 'video' and save resultant video at 'audio_striped_output' Path
+    #Strip audio from video
     strip_audio = ['ffmpeg', '-i', video, '-c', 'copy', '-an', audio_striped_output]
-    # executing the commands using subprocess
     subprocess.run(strip_audio, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-    # Command of ffmpeg to use the new audio and merge it with the video
-    # we take input video 'audio_striped_output' and save resultant video at 'output' Path
+    
+    #Merge Video and Audio
+    #Checking video length and audio length
     if video_length(video) > audio_length(audio):
         merge_audio_and_video = ['ffmpeg', '-i', audio_striped_output, '-i', audio, '-c', 'copy', output]
-        # executing the commands using subprocess
         subprocess.run(merge_audio_and_video, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
         merge_audio_and_video = ['ffmpeg', '-i', audio_striped_output, '-i', audio, '-c', 'copy', '-shortest', output]
-        # executing the commands using subprocess
         subprocess.run(merge_audio_and_video, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
-    # After merging the video and audio we dont need the input video 'audio_striped_output'
-    # so we delete the input video 'audio_striped_output' using os.remove
+    # removing audio_striped video from temp directory
     os.remove(audio_striped_output)
 
-    # Command of ffmpeg to compress the resultant file and create a low filesiz
-    # we take input video 'output' and save resultant video at 'compressed_output' Path
+    # Compressing the merged video and audio
     compress_video = ['ffmpeg', '-i', output, '-vcodec', 'libx264', '-crf', '28', compressed_output]
-    # executing the commands using subprocess
     subprocess.run(compress_video, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    # After Compressing the video we dont need the input video 'output'
-    # so we delete the input video 'output' using os.remove
+
+    # removing merged video and audio from temp directory
     os.remove(output)
 
-    # Finally we return the path of compressed video so that is can be stored in model.
+    # Returning the path of compressed output video
     return compressed_output
 
 

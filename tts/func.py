@@ -2,7 +2,7 @@ from uuid import uuid4
 from gtts import gTTS
 import pyttsx3
 
-speech_path =  f'media/audio/temp/{str(uuid4())}.mp3'
+speech_path =  f'media/audio/temp/{str(uuid4())}.mp3' # Path for storing speech
 
 def convertToSpeech(file, voice):
     #If female selected in html form 
