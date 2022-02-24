@@ -6,48 +6,57 @@ Videomerge
 
 {% block content %}
 <div class="jumbotron">
-  <h1 class="display-4">VideoMerge</h1>
-  <p class="lead text-center">Upload the video and audio file and wait for few moments and experience the magic of
-    Videomerge</p>
-  <hr class="my-4">
+    <h1 class="display-4">VideoMerge</h1>
+    <p class="lead text-center">Upload the video and audio file and wait for few moments and experience the magic of
+        Videomerge</p>
+    <hr class="my-4">
 
-  <div class="row">
-    <div class="col-sm">
-      <form method="POST" action="" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-row mt-4 mb-4 pl-4 pr-4">
-          <div class="col">
-            {{form.as_p}}
-          </div>
-          <button type="submit" class="btn btn-primary btn-lg btn-block">Merge</button>
+    <div class="row">
+        <div class="col-sm">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-row mt-4 mb-4 pl-4 pr-4">
+                    <div class="col">
+                        <p>
+                            <label for="id_video">Video:</label>
+                            <input type="file" name="video" required id="id_video">
+                        </p>
+                        <p>
+                            <label for="id_audio">Audio:</label>
+                            <input type="file" name="audio" required id="id_audio">
+                        </p>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Merge</button>
+                </div>
+            </form><br>
         </div>
-      </form><br>
+        <div class="col-sm mt-4 mb-4 pl-4 pr-4">
+            {% if data %}
+            <p class="text-left">Your request has been processed.... </p><br>
+            <p class="text-left">Preview Video:
+                <a class="btn btn-outline-secondary" href={% url 'preview-video' id=data.id %} role="button"
+                    target="_blank">Preview</a>
+            </p><br>
+
+            <p>OR Download Video:
+                <a class="btn btn-outline-primary" href={% url 'download-video' id=data.id %}
+                    role="button">Download</a>
+            </p>
+            {% endif %}
+        </div>
     </div>
-    <div class="col-sm mt-4 mb-4 pl-4 pr-4">
-      {% if data %}
-      <p class="text-left">Your request has been processed.... </p><br>
-      <p class="text-left">Preview Video: 
-        <a class="btn btn-outline-secondary" href={% url 'preview-video' id=data.video_id %} role="button" target="_blank">Preview</a>
-      </p><br>
 
-      <p>OR Download Video: 
-        <a class="btn btn-outline-primary" href={% url 'download-video' id=data.video_id %} role="button">Download</a>
-      </p>
-      {% endif %}
+
+    {% if error %}
+    <div class="alert alert-warning" role="alert">
+        <p>Internal Server Error, Sorry For inconvenience you faced. Please Try again. </p>
     </div>
-  </div>
+    {% endif %}
 
-
-  {% if error %}
-  <div class="alert alert-warning" role="alert">
-    <p>Internal Server Error, Sorry For inconvenience you faced. Please Try again. </p>
-  </div>
-  {% endif %}
-
-  {% if message %}
-  <div class="alert alert-warning" role="alert">
-    <p>Invalid File Format, only '.mp4' videos and '.mp3' audio files are Supported..</p>
-  </div>
-  {% endif %}
+    {% if message %}
+    <div class="alert alert-warning" role="alert">
+        <p>Invalid File Format, only '.mp4' videos and '.mp3' audio files are Supported..</p>
+    </div>
+    {% endif %}
 </div>
 {% endblock %}

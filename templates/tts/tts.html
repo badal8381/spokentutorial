@@ -17,7 +17,10 @@ Text To Speech
         {% csrf_token %}
         <div class="form-row mt-4 mb-4 pl-4 pr-4">
           <div class="col">
-            {{form.as_p}}
+            <p>
+              <label for="id_text_file">Upload Text file :</label>
+              <input type="file" name="txt" required id="id_text_file">
+            </p>
             <label for="voice">Select Voice : </label>
             <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="voice">
               <option selected value="f">Female</option>
@@ -34,7 +37,7 @@ Text To Speech
       <audio controls controlsList="nodownload">
         <source src="{{ data.speech.url }}" type="audio/mpeg">
       </audio><br>
-      <p>Download Audio : <a class="btn btn-outline-primary" href={% url 'download-audio' id=data.text_id %} role="button">Download</a></p>
+      <p>Download Audio : <a class="btn btn-outline-primary" href={% url 'download-audio' id=data.id %} role="button">Download</a></p>
 
       <!-- <a class="btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER }}" role="button">Star Over</a> -->
       {% endif %}

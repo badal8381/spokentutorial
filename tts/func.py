@@ -1,4 +1,3 @@
-from pathlib import Path
 from uuid import uuid4
 from gtts import gTTS
 import pyttsx3
@@ -12,7 +11,7 @@ def convertToSpeech(file, voice):
             text = f.read().replace("\n", " ")
             speech = gTTS(text, lang='en', slow=False)
             speech.save(speech_path)
-            return Path(speech_path)
+            return speech_path
         
     #If male selected in html form 
         elif voice == 'm':
@@ -22,4 +21,4 @@ def convertToSpeech(file, voice):
             text = f.read().replace("\n", " ")
             engine.save_to_file(text, speech_path)
             engine.runAndWait()
-            return Path(speech_path)
+            return speech_path
