@@ -3,8 +3,8 @@ from uuid import uuid4
 from django.core.files import File
 from django.http import HttpResponse
 from django.shortcuts import render
-from .func import convert_video
-from .models import convertedVideo
+from videomerge.func import convert_video
+from videomerge.models import convertedVideo
 
 vid_ext = ['mp4', 'mov', 'wmv', 'avi', 'mkv']   # Video file extensions
 aud_ext = ['mp3', 'aac', 'ogg', 'wav']          # Audio file extensions
