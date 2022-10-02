@@ -4,6 +4,11 @@ import pyttsx3
 
 speech_path =  f'media/audio/temp/{str(uuid4())}.mp3' # Path for storing speech
 
+def translate_text(text, lang):
+    translator = Translator(service_urls=['translate.google.co.in'])
+    translated = translator.translate(text, dest=lang)
+    return translated.text
+
 def convertToSpeech(file, voice):
     #If female selected in html form 
     with open(file, 'r') as f:
