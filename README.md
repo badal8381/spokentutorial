@@ -1,3 +1,3 @@
 # SpokenTutorial
 
-This is a python and django based web application.
+This is a Python and Django based web application.
